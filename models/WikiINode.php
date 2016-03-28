@@ -1,0 +1,55 @@
+<?php
+use Sabre\DAV;
+
+/**
+ * Container extending DBObjectInode to add wiki pages as children
+ */
+class WikiINode extends DBObjectINode {
+
+	/**
+	 * Returns an array of File and/or Directory objects.
+	 */
+	function getChildren() {
+		$result=parent::getChildren();
+		$children=$this->getDBObject()->getPages();
+		if (is_array($children)) {
+			foreach ($children as  $object) {
+				$iNode=new WikiPageINode($this->w,$object);
+				$result[]=$iNode;
+			}
+		}
+		return $result;
+	} 
+	
+		/**
+	 * Returns a File or Directory object for the child-node of the given name.
+	 */
+	function getChild($name) {
+		// look for matching wiki page child
+		$children=$this->getDBObject()->getPages();
+		if (is_array($children)) {
+			foreach ($children as  $object) {
+				if ($object->getSelectOptionTitle()==$name) {
+					$result=new WikiPageINode($this->w,$object);
+				}
+			}
+		}
+		// fallback to matching attachment
+		if (empty($result)) {
+			$children=$this->w->File->getAttachments($this->getDBObject(),$this->getDBObject()->id);
+			if (is_array($children)) {
+				foreach ($children as  $object) {
+					if ($object->filename==$name) {
+						$result=new AttachmentINode($this->w,$object);
+					}
+				}
+			}
+			
+		}
+		if (empty($result)) {
+			throw new Exception('No matching child '.$name);
+		}
+		return $result;
+	}
+
+}
