@@ -39,14 +39,14 @@ function default_ALL(Web &$w) {
 	$storageBackend = new Sabre\DAV\PropertyStorage\Backend\PDO($w->db);
 	$propertyStorage = new \Sabre\DAV\PropertyStorage\Plugin($storageBackend);
 	$server->addPlugin($propertyStorage);
-
-	try {
+	
+	//try {
 	// All we need to do now, is to fire up the server
 		$server->exec();
-	} catch (Exception $e) {
-		echo $e->getMessage();
-		die();
-	}
+	//} catch (Exception $e) {
+	//	echo $e->getMessage();
+	//	die();
+	//}
 	
 	
 }

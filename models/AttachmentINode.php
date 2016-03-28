@@ -11,9 +11,10 @@ class AttachmentINode implements Sabre\DAV\IFile {
 	 * updates the data in the file.
 	 */
 	function put($data) {
-		//throw new Exception('No write access to this object');
-		//return;
-		if (true || $this->getDBObject()->canEdit($this->w->Auth->user())) {
+		echo "put";
+		print_r([$data]);
+		die();
+		if ($this->getDBObject()->canEdit($this->w->Auth->user())) {
 			return $this->getDBObject()->getFile()->setContent($data); 
 		} else  {
 			echo 'No write access to this object';
@@ -65,4 +66,10 @@ class AttachmentINode implements Sabre\DAV\IFile {
 		return $this->getDBObject()->getFile()->getSize(); 
 	} 
 	
+	/**
+	 * deletes the file/directory.
+	 */
+	function delete() {
+		return $this->getDBObject()->delete();
+	} 
 }

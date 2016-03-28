@@ -45,6 +45,8 @@ class ClassINode extends Sabre\DAV\Collection {
 				if ($object->getSelectOptionTitle()==$name) {
 					if ($object->canView($this->w->Auth->user())) {
 						$result=$iNode;
+					} else {
+						throw new Exception('No access to this '.get_class($object));
 					}
 				}
 			}
@@ -63,11 +65,17 @@ class ClassINode extends Sabre\DAV\Collection {
 				if ($object->canList($this->w->Auth->user())) {
 					$iNodeName=$this->className."INode";
 					$iNode=new $iNodeName($this->w,$object);
-					$result[]=$iNode;
+					if (strlen(trim($iNode->collateBy))>0) {
+						$collateBy=$iNode->collateBy;
+						$result[$object->$collateBy]=$iNode;
+					} else {
+						$result[]=$iNode;
+					}
 				}
 			}
 		}
-		//print_r($result);
+		//print_r([count($result)]);
+		//die();
 		//throw new Exception('eee');
 		return $result;
 	} 

@@ -36,12 +36,18 @@ class DBRootINode extends Sabre\DAV\Collection {
 	 * Returns a File or Directory object for the child-node of the given name.
 	 */
 	function getChild($name) {
-		$parts=explode('/',ROOT_PATH);
-		if ($name==$parts[count($parts)-1]) {
-			return new DAV\FS\Directory(ROOT_PATH);
-		} if ($name=='attachments') {
-			return new DAV\FS\Directory(ROOT_PATH.'/uploads/attachments');
-		} 
+		
+		$webDavConfig=Config::get('webdav');
+		
+		// filesystem
+		foreach ($webDavConfig['filesystems'] as $path) {
+			$parts=explode('/',ROOT_PATH.$path);
+			if ($name==$parts[count($parts)-1]) {
+				return new DAV\FS\Directory(ROOT_PATH.$path);
+			}
+		}
+		
+		// db record
 		$iNode=new ClassINode($this->w,$name);
 		return $iNode;
 	} 
@@ -51,16 +57,17 @@ class DBRootINode extends Sabre\DAV\Collection {
 	 */
 	function getChildren() {
 		$result=[];
+		// configured root classes
 		foreach ($this->children as $name => $details) {
 			$iNode=new ClassINode($this->w,$name);
 			$result[]=$iNode;
 		}
-		//if (Config::get('webdav.allow??')) 
-		$result[]=new DAV\FS\Directory(ROOT_PATH);
-		$result[]=new DAV\FS\Directory(ROOT_PATH.'/uploads/attachments');
 		
-		//print_r($result);
-		//throw new Exception('eee');
+		// filesystems
+		$webDavConfig=Config::get('webdav');
+		foreach ($webDavConfig['filesystems'] as $path) {
+			$result[]=new DAV\FS\Directory(ROOT_PATH.$path);
+		}
 		return $result;
 	} 
 	

@@ -17,6 +17,7 @@ class DBObjectINode extends Sabre\DAV\Collection {
  */
 trait DbObjectTrait {	
 	
+	public $collateBy;
 	private $object;
 	protected $w;
 	
@@ -92,31 +93,13 @@ trait DbObjectTrait {
 		}
 	}
 	
-	/**
-	 * Returns a File or Directory object for the child-node of the given name.
-	 */
-	function getChild($name) {
-		$parent=$this->getDBObject();
-		if ($parent->canView($this->w->Auth->user())) { 
-			$children=$this->w->File->getAttachments($parent,$parent->id);
-			if (is_array($children)) {
-				foreach ($children as  $object) {
-					if ($object->filename==$name) {
-						$result=new AttachmentINode($this->w,$object);
-					}
-				}
-			}
-		}
-		if (empty($result)) throw new Exception('No matching child '.$name);
-		return $result;
-	} 
+
 	
 	/**
 	 * Returns an array of File and/or Directory objects.
 	 */
 	function getChildren() {
 		$result=[];
-		if ($this->getDBObject()->canView($this->w->Auth->user())) 
 		$children=$this->w->File->getAttachments($this->getDBObject(),$this->getDBObject()->id);
 		if (is_array($children)) {
 			foreach ($children as  $object) {
@@ -126,7 +109,30 @@ trait DbObjectTrait {
 		}
 		return $result;
 	} 
-	
+
+	/**
+	 * Returns a File or Directory object for the child-node of the given name.
+	 */
+	function getChild($name) {
+		$children=$this->getChildren();
+		if (is_array($children)) {
+			foreach ($children as  $node) {
+				$object=$node->getDBObject();
+				if ($object->getSelectOptionTitle()==$name) {
+					if ($object->canView($this->w->Auth->user())) {
+						$result=$node;
+					} else {
+						throw new Exception ('No access to this record');
+					}
+				}
+			}
+		}
+		if (empty($result)) {
+			throw new Exception('No matching child '.$name);
+		}
+		return $result;
+	}
+		
 	/**
 	 * Creates a new file with the given name.
 	 */

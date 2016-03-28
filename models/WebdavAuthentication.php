@@ -11,7 +11,11 @@ class WebdavAuthentication extends  Sabre\DAV\Auth\Backend\AbstractDigest {
 	
 	function __construct($w) {
 		$this->w=$w;
-		$realm=Config::get('system.authenticationrealm');
+		$webdavConfig=Config::get('webdav');
+		$realm='';
+		if (array_key_exists('authenticationRealm',$webdavConfig)) {
+			$realm=$webdavConfig['authenticationRealm'];
+		}
 		if (empty($realm)) {
 			$realm='CmFive';
 		}

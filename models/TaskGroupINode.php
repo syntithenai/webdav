@@ -38,6 +38,8 @@ class TaskGroupINode extends DBObjectINode {
 					if ($object->getSelectOptionTitle()==$name) {
 						if ($object->canView($this->w->Auth->user())) {
 							$result=new TaskINode($this->w,$object);
+						} else {
+							throw new Exception('No access to this task');
 						}
 					}
 				}

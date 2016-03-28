@@ -14,8 +14,10 @@ class WikiINode extends DBObjectINode {
 		$children=$this->getDBObject()->getPages();
 		if (is_array($children)) {
 			foreach ($children as  $object) {
-				$iNode=new WikiPageINode($this->w,$object);
-				$result[]=$iNode;
+				if ($object->canList($this->w->Auth->user())) {
+					$iNode=new WikiPageINode($this->w,$object);
+					$result[]=$iNode;
+				}
 			}
 		}
 		return $result;
@@ -29,8 +31,12 @@ class WikiINode extends DBObjectINode {
 		$children=$this->getDBObject()->getPages();
 		if (is_array($children)) {
 			foreach ($children as  $object) {
-				if ($object->getSelectOptionTitle()==$name) {
-					$result=new WikiPageINode($this->w,$object);
+				if ($object->canView($this->w->Auth->user())) {
+					if ($object->getSelectOptionTitle()==$name) {
+						$result=new WikiPageINode($this->w,$object);
+					} else {
+						throw new Exception ('No access to this wiki page');
+					}
 				}
 			}
 		}
@@ -40,7 +46,11 @@ class WikiINode extends DBObjectINode {
 			if (is_array($children)) {
 				foreach ($children as  $object) {
 					if ($object->filename==$name) {
-						$result=new AttachmentINode($this->w,$object);
+						if ($object->canView($this->w->Auth->user())) {
+							$result=new AttachmentINode($this->w,$object);
+						} else {
+							throw new Exception ('No access to this attachment');
+						}
 					}
 				}
 			}
