@@ -25,22 +25,24 @@ By default, Attachments can be associated with any Object regardless of the Cmfi
 
 ## Install
 [Apply the webdavsupport cmfive branch]
-Checkout the webdav module `git clone https://github.com/syntithenai/webdav.git`
-Link the module into the site modules folder `ln -s /home/projects/webdav /var/www/cmfive/modules/webdav`
-Update composer using the cmfive tool. The sabre dependancy is defined in the  module.
-Apply the migrations using the cmfive admin migration tool.
-Ensure CSRF is disabled 
+
+- Checkout the webdav module `git clone https://github.com/syntithenai/webdav.git`
+- Link the module into the site modules folder `ln -s /home/projects/webdav /var/www/cmfive/modules/webdav`
+- Update composer using the cmfive tool. The sabre dependancy is defined in the  module.
+- Apply the migrations using the cmfive admin migration tool.
+- Ensure CSRF is disabled 
 `Config::set("system.checkCSRF", false);
 Config::set("system.csrf.enabled", false);`
-Use the admin or profile tools to update the user passwords so that the password digest can be written.
+- Use the admin or profile tools to update the user passwords so that the password digest can be written.
 
 
 ## Mapping a drive in windows
-Go to My Computer
-Click Map Network Drive
-Click the link "Connect to a website that you can use to store you documents or pictures"
-Click Next, Click Next
-Fill the URL for your webdav server `http://cmfivesite.com/webdav` and press enter.
+
+- Go to My Computer
+- Click Map Network Drive
+- Click the link "Connect to a website that you can use to store you documents or pictures"
+- Click Next, Click Next
+- Fill the URL for your webdav server `http://cmfivesite.com/webdav` and press enter.
 
 
 ## Config
@@ -65,20 +67,17 @@ A single cmfive action is available the /webdav/webdav.actions.php which include
 
 ### Classes
 
-DBRootINode - root container with configured list of available objects as children
-ClassInode - container for an Object which lists all records inside.
-DBObjectINode - container for a record which lists all attachments inside and potentially other related records.
-AttachmentInode - file
-
-WebdavAuthentication - cmfive integration plugin
-
-WikiINode - DBObjectINode extension adds wiki pages as children
-WikiPageINode - plain DBObjectINode extension
-TaskGroupINode - DBObjectINode extension adds tasks as children
-TaskINode - plain DBObjectINode extension
-UserINode - plain DBObjectINode extension
-
-INodeService - shared service class
+- DBRootINode - root container with configured list of available objects as children
+- ClassInode - container for an Object which lists all records inside.
+- DBObjectINode - container for a record which lists all attachments inside and potentially other related records.
+- AttachmentInode - file
+- WebdavAuthentication - cmfive integration plugin
+- WikiINode - DBObjectINode extension adds wiki pages as children
+- WikiPageINode - plain DBObjectINode extension
+- TaskGroupINode - DBObjectINode extension adds tasks as children
+- TaskINode - plain DBObjectINode extension
+- UserINode - plain DBObjectINode extension
+- INodeService - shared service class
 
 To enable additional record types to be displayed via webdav, create a new INode class with name matching the object to be mapped ie MedicalRecordINode that extends DBObjectINode and then override appropriate methods.
 
