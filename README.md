@@ -1,7 +1,7 @@
 #Webdav module
 
 ## Summary
-The webdav module provides access to Attachments stored in the system using a Webdav filesystem client.
+The webdav module for CmFive provides access to Attachment records stored in the system using a Webdav filesystem client.
 
 The filesystem tree reflects the objects that contain the attachments filtered according to access for the authenticated user.
 [Not all objects implement the can* methods eg User, Attachment]
