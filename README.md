@@ -50,8 +50,7 @@ The config.php file for the module controls what objects appear at the root of t
 
 `Config::set('webdav', array(
 	......
-	'enableDeveloperMode' => true,  // show a filesystem from the root of the cmfive tree
-	'enableAttachments' => true, // show a filesystem from the attachments folder - subfolders by object/date.
+	'filesystems' => ['','/uploads/attachments'],  // relative to ROOT_PATH
 	'availableObjects' => ['Wiki'=>[],'TaskGroup'=>[],'Task'=>[],'User'=>[] ],
 ));`
 
