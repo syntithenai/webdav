@@ -25,9 +25,9 @@ class WebdavAuthentication extends  Sabre\DAV\Auth\Backend\AbstractDigest {
 	/**
 	 *  For Basic Auth - doesn't work with windows 
 	 */
-	//function validateUserPass($user,$password) {
-	//	return $this->w->Auth->login($user,$password,'GMT');
-	//}
+	function validateUserPass($user,$password) {
+		return $this->w->Auth->login($user,$password,'GMT');
+	}
 	
 	/**
 	 * For digest auth

@@ -14,5 +14,4 @@ class AuthUserPasswordDigest extends CmfiveMigration {
         $this->hasTable("user") && $this->table("user")->hasColumn("password_digest") ? $this->table("user")->removeColumn("password_digest") : null;
 	}
 
-
 }

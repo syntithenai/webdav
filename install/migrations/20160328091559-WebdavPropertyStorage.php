@@ -27,10 +27,10 @@ CREATE UNIQUE INDEX path_property ON propertystorage (path(600), name(100));
 						'id' => false,
 						'primary_key' => 'id'
 					])->addColumn($column)
-					->addColumn('path', 'blob', ['limit' => 1024])
-					->addColumn('name', 'blob', ['limit' => 100])
+					->addColumn('path', 'text', ['limit' => 1024])
+					->addColumn('name', 'text', ['limit' => 100])
 					->addColumn('valuetype', 'integer',[])
-					->addColumn('value', 'blob', [])
+					->addColumn('value', 'text', [])
 					->create();
 		}
 	}
