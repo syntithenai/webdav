@@ -4,7 +4,7 @@
  */
 function webdav_auth_setpassword($w,$data) {
 	$webdavConfig=Config::get('webdav');
-	$realm=$webdavConfig['authenticationRealm'];
+	$realm=array_key_exists('authenticationRealm',$webdavConfig) ? $webdavConfig['authenticationRealm'] : 'CmFive';
 	if (empty($realm)) {
 			$realm='CmFive';
 	}
