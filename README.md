@@ -30,9 +30,18 @@ By default, Attachments can be associated with any Object regardless of the Cmfi
 - Link the module into the site modules folder `ln -s /home/projects/webdav /var/www/cmfive/modules/webdav`
 - Update composer using the cmfive tool. The sabre dependancy is defined in the  module.
 - Apply the migrations using the cmfive admin migration tool.
-- Ensure CSRF is disabled 
+- Ensure CSRF is disabled and the module is allowed access without authentication.
 `Config::set("system.checkCSRF", false);
-Config::set("system.csrf.enabled", false);`
+
+Config::set("system.csrf.enabled", false);
+
+Config::set("system.allow_module", array(
+     "rest", // uncomment this to switch on REST access to the database objects. Tread with CAUTION!
+     "webdav"
+)); 
+
+`
+
 - Use the admin or profile tools to update the user passwords so that the password digest can be written.
 
 

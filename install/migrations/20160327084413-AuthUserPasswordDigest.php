@@ -1,6 +1,6 @@
 <?php
 
-class AuthUserPasswordDigest extends CmfiveMigration {
+class AuthUserPasswordDigestMigration extends CmfiveMigration {
 
 	public function up() {
 		// UP

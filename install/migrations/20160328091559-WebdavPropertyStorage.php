@@ -1,6 +1,6 @@
 <?php
 
-class WebdavPropertyStorage extends CmfiveMigration {
+class WebdavPropertyStorageMigration extends CmfiveMigration {
 
 
 /*********************
