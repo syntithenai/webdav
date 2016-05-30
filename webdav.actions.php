@@ -5,7 +5,6 @@ use Sabre\DAV;
  * Catch all action for request into the webdav module
  */
 function default_ALL(Web &$w) {	
-	
 	$w->setLayout(null);
 	
 	// Now we're creating a whole bunch of objects
@@ -27,6 +26,9 @@ function default_ALL(Web &$w) {
 	// This ensures that we get a pretty index in the browser, but it is
 	// optional.
 	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
+	
+	$server->addPlugin(new \Sabre\DAV\Browser\GuessContentType());
+	
 	
 	// cmfive authentication
 	$authBackend = new WebdavAuthentication($w);
